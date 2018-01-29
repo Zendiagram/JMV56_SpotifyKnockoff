@@ -63,6 +63,25 @@ public class Artist {
 			e.printStackTrace();
 		}
 	}
+	
+	public void deleteArtist(String artistID) {
+		String sql = "DELETE FROM artist ";
+		sql += "WHERE artist_id = ?;";
+	
+		try {
+			DbUtilities db = new DbUtilities();
+			Connection conn = db.getConn();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, artistID);
+			ps.executeUpdate();
+			db.closeDbConnection();
+			db = null;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 
 	public String getArtistID() {
 		return artistID;

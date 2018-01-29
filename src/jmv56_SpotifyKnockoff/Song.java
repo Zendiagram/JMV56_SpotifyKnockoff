@@ -82,6 +82,52 @@ public class Song {
 		
 	}
 	
+	public void deleteSong(String songID) {
+		String sql = "DELETE FROM song ";
+		sql += "WHERE song_id = ?;";
+	
+		try {
+			DbUtilities db = new DbUtilities();
+			Connection conn = db.getConn();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, songID);
+			ps.executeUpdate();
+			db.closeDbConnection();
+			db = null;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void addArtist(String... artistID) {
+		
+		this.songArtists = new Hashtable<String, Artist>();
+		
+		for (String v : artistID) {
+		Artist a = new Artist(v);
+		this.songArtists.put(v, a);
+		}
+					
+					
+	}
+	
+	public void deleteArtist(String... artistID) {
+		
+		for (String v : artistID) {
+			this.songArtists.remove(v);	
+		}
+	}
+	
+	public void deleteArtist(Artist... artist) {
+		
+		for (Artist v : artist) {
+			this.songArtists.remove(v.getArtistID());
+		}
+	}
+	
+	
 	public String getReleaseDate() {
 		return releaseDate;
 	}

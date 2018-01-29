@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Map;
 
 
 public class Album {
@@ -76,6 +75,51 @@ public class Album {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public void deleteAlbum(String albumID) {
+		String sql = "DELETE FROM album ";
+		sql += "WHERE album_id = ?;";
+	
+		try {
+			DbUtilities db = new DbUtilities();
+			Connection conn = db.getConn();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, albumID);
+			ps.executeUpdate();
+			db.closeDbConnection();
+			db = null;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void addSong(String... songID) {
+		
+		this.albumSongs = new Hashtable<String, Song>();
+		
+		for (String v : songID) {
+		Song a = new Song(v);
+		this.albumSongs.put(v, a);
+		}
+					
+					
+	}
+
+	public void deleteSong(String... songID) {
+	
+		for (String v : songID) {
+			this.albumSongs.remove(v);	
+		}
+	}
+
+	public void deleteSong(Song... song) {
+	
+		for (Song v : song) {
+			this.albumSongs.remove(v.getSongID());
+		}
 	}
 
 	public String getAlbumID() {
