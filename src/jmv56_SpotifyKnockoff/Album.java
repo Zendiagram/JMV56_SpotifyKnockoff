@@ -9,6 +9,7 @@ import java.sql.SQLException;
 
 public class Album {
 	
+	//private vars for Album objects
 	private String albumID;
 	private String title;
 	private String releaseDate;
@@ -19,7 +20,7 @@ public class Album {
 	private double length;
 	Map<String,Song> albumSongs;
 	
-	
+	//add a new Album object into the database using JDBC
 	public Album (String title, String releaseDate, String recordingCompany, int numberOfTracks, String pmrcRating, double length){
 		this.title = title;
 		this.releaseDate = releaseDate;
@@ -27,11 +28,13 @@ public class Album {
 		this.numberOfTracks = numberOfTracks;
 		this.pmrcRating = pmrcRating;
 		this.length = length;
-		this.albumID = UUID.randomUUID().toString();
+		this.albumID = UUID.randomUUID().toString();  //randomly generated identifier
 		
+		//build query and store it in the sql variable
 		String sql = "INSERT INTO album (album_id,title,release_date,cover_image_path,recording_company_name,number_of_tracks,PMRC_rating,length) ";
 		sql += "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 		
+		//connect to the database and run the insert query
 		try {
 			DbUtilities db = new DbUtilities();
 			Connection conn = db.getConn();
@@ -39,13 +42,13 @@ public class Album {
 			ps.setString(1, this.albumID);
 			ps.setString(2,  this.title);
 			ps.setString(3, this.releaseDate);
-			ps.setString(4, "");
+			ps.setString(4, "");  //we will populate this path once we know where we are storing the album images
 			ps.setString(5, this.recordingCompany);
 			ps.setInt(6, this.numberOfTracks);
 			ps.setString(7, this.pmrcRating);
 			ps.setDouble(8, this.length);
 			ps.executeUpdate();
-			db.closeDbConnection();
+			db.closeDbConnection();  //close that expensive connectoin!
 			db = null;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -54,16 +57,18 @@ public class Album {
 	}
 	
 	public Album(String albumID) {
+		
+		//create the query and store to var sql. Maybe change to prepared statement?
 		String sql = "SELECT * FROM album WHERE album_id = '" + albumID + "';";
 		
 		DbUtilities db = new DbUtilities();
 		
 		try {
 			ResultSet rs = db.getResultSet(sql);
-			while(rs.next()) {
+			while(rs.next()) {  //retreive the listed attributes of the Album from the database and store them as private variables in the created Album object
 				this.albumID = rs.getString("album_id");
 				this.title = rs.getString("title");
-				this.releaseDate = rs.getDate("release_date").toString();
+				this.releaseDate = rs.getDate("release_date").toString();  //cast the date to a String
 				this.recordingCompany = rs.getString("recording_company_name");
 				this.numberOfTracks = rs.getInt("number_of_tracks");
 				this.pmrcRating = rs.getString("PMRC_rating");
@@ -77,7 +82,10 @@ public class Album {
 		
 	}
 	
+	//deletes the album from the database
 	public void deleteAlbum(String albumID) {
+		
+		//created query and store to sql.  Using a prepared statement.
 		String sql = "DELETE FROM album ";
 		sql += "WHERE album_id = ?;";
 	
@@ -96,7 +104,8 @@ public class Album {
 		
 	}
 	
-	public void addSong(String... songID) {
+	//add Songs to the hashtable for the Album object by songID
+	public void addSong(String... songID) {  //allows for multiple songIDs to be passed in
 		
 		this.albumSongs = new Hashtable<String, Song>();
 		
@@ -107,7 +116,8 @@ public class Album {
 					
 					
 	}
-
+	
+	//deletes song from the albumSongs hashtable by songID
 	public void deleteSong(String... songID) {
 	
 		for (String v : songID) {
@@ -115,6 +125,7 @@ public class Album {
 		}
 	}
 
+	//deletes song from the albumSongs hashtable by Song object
 	public void deleteSong(Song... song) {
 	
 		for (Song v : song) {
@@ -122,6 +133,7 @@ public class Album {
 		}
 	}
 
+//getters
 	public String getAlbumID() {
 		return albumID;
 	}
