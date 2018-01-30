@@ -135,13 +135,9 @@ public class Song {
 		}
 	}
 	
-//getters and setters	
+//getters	
 	public String getReleaseDate() {
 		return releaseDate;
-	}
-
-	public void setReleaseDate(String releaseDate) {
-		this.releaseDate = releaseDate;
 	}
 
 	public String getSongID() {
