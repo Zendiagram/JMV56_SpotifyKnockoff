@@ -30,6 +30,8 @@ public class Album {
 		this.length = length;
 		this.albumID = UUID.randomUUID().toString();  //randomly generated identifier
 		
+		albumSongs = new Hashtable<String, Song>();
+		
 		//build query and store it in the sql variable
 		String sql = "INSERT INTO album (album_id,title,release_date,cover_image_path,recording_company_name,number_of_tracks,PMRC_rating,length) ";
 		sql += "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
@@ -42,7 +44,7 @@ public class Album {
 			ps.setString(1, this.albumID);
 			ps.setString(2,  this.title);
 			ps.setString(3, this.releaseDate);
-			ps.setString(4, "");  //we will populate this path once we know where we are storing the album images
+			ps.setString(4, "");  //we will populate this path once we know where we are storing the album images, using a setter
 			ps.setString(5, this.recordingCompany);
 			ps.setInt(6, this.numberOfTracks);
 			ps.setString(7, this.pmrcRating);
@@ -51,12 +53,14 @@ public class Album {
 			db.closeDbConnection();  //close that expensive connectoin!
 			db = null;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLogger.log(e.getMessage());
 		}
 		
 	}
 	
 	public Album(String albumID) {
+		
+		albumSongs = new Hashtable<String, Song>();
 		
 		//create the query and store to var sql. Maybe change to prepared statement?
 		String sql = "SELECT * FROM album WHERE album_id = '" + albumID + "';";
@@ -77,7 +81,7 @@ public class Album {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ErrorLogger.log(e.getMessage());
 		}
 		
 	}
@@ -99,7 +103,7 @@ public class Album {
 			db = null;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ErrorLogger.log(e.getMessage());
 		}
 		
 	}
@@ -107,30 +111,88 @@ public class Album {
 	//add Songs to the hashtable for the Album object by songID
 	public void addSong(String... songID) {  //allows for multiple songIDs to be passed in
 		
-		this.albumSongs = new Hashtable<String, Song>();
+		DbUtilities db = new DbUtilities();
+		Connection conn = db.getConn();
 		
-		for (String v : songID) {
-		Song a = new Song(v);
-		this.albumSongs.put(v, a);
-		}
-					
-					
+			try {
+				for (String v : songID) {
+					Song a = new Song(v);
+					this.albumSongs.put(v, a);
+				
+					String sql = "INSERT INTO album_song (fk_album_id, fk_song_id) VALUES (?,?);";
+				
+					PreparedStatement ps;
+					ps = conn.prepareStatement(sql);
+					ps.setString(1, this.getAlbumID());
+					ps.setString(2, v);
+					ps.executeUpdate();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				ErrorLogger.log(e.getMessage());
+			}
+		
+		db.closeDbConnection();
+		db = null;
+										
 	}
 	
 	//deletes song from the albumSongs hashtable by songID
 	public void deleteSong(String... songID) {
-	
-		for (String v : songID) {
-			this.albumSongs.remove(v);	
-		}
+		
+		DbUtilities db = new DbUtilities();
+		Connection conn = db.getConn();
+		
+			try {
+				for (String v : songID) {
+					this.albumSongs.remove(v);
+				
+				
+					String sql = "DELETE FROM album_song WHERE fk_album_id = ? AND fk_song_id = ?;";
+				
+					PreparedStatement ps;
+					ps = conn.prepareStatement(sql);
+					ps.setString(1, this.getAlbumID());
+					ps.setString(2, v);
+					ps.executeUpdate();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				ErrorLogger.log(e.getMessage());
+			}
+				
+		
+		db.closeDbConnection();
+		db = null;			
 	}
 
 	//deletes song from the albumSongs hashtable by Song object
 	public void deleteSong(Song... song) {
-	
-		for (Song v : song) {
-			this.albumSongs.remove(v.getSongID());
-		}
+		
+		DbUtilities db = new DbUtilities();
+		Connection conn = db.getConn();
+		
+			try {
+				for (Song v : song) {
+					this.albumSongs.remove(v.getSongID());
+				
+				
+					String sql = "DELETE FROM album_song WHERE fk_album_id = ? AND fk_song_id = ?;";
+				
+					PreparedStatement ps;
+					ps = conn.prepareStatement(sql);
+					ps.setString(1, this.getAlbumID());
+					ps.setString(2, v.getSongID());
+					ps.executeUpdate();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				ErrorLogger.log(e.getMessage());
+			}
+				
+		
+		db.closeDbConnection();
+		db = null;		
 	}
 
 //getters

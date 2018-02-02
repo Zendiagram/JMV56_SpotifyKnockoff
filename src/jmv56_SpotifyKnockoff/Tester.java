@@ -35,7 +35,8 @@ public class Tester {
 			db = null;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
+			ErrorLogger.log(e.getMessage());
 		}
 		
 		Song foundSong = songList.get("b2dc89b2-205e-40ac-be60-d9b271490458");
@@ -70,6 +71,9 @@ public class Tester {
 		a1.deleteSong(s1);
 		System.out.println(a1.getAlbumSongs());
 		*/
+		
+		ErrorLogger.log("This is a test message");
+		
 	}
 
 }

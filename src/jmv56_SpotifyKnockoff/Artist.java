@@ -37,13 +37,13 @@ public class Artist {
 			ps.setString(2, this.firstName);
 			ps.setString(3, this.lastName);
 			ps.setString(4, this.bandName);
-			ps.setString(5, "");  //this line would contain the bio.  I am currently leaving it blank.
+			ps.setString(5, "");  //this line would contain the bio.  Creat a setter for it.
 			ps.executeUpdate();
 			db.closeDbConnection();  //jdbc connections are expensive.  Close the dbConnection when you are done with it.
 			db = null;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ErrorLogger.log(e.getMessage());
 		}
 		
 		
@@ -63,7 +63,7 @@ public class Artist {
 				this.bio = rs.getString("bio");
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			ErrorLogger.log(e.getMessage());
 		}
 	}
 	
@@ -83,7 +83,7 @@ public class Artist {
 			db = null;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ErrorLogger.log(e.getMessage());
 		}
 		
 	}
