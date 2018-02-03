@@ -1,4 +1,5 @@
-package jmv56_SpotifyKnockoff;
+package JMV56_SpotifyKnockoff;
+
 
 import java.util.*;
 import java.sql.Connection;
@@ -31,8 +32,8 @@ public class Song {
 		
 	//System.out.println(this.songID);	
 		//sql query stored in the var sql
-		String sql = "INSERT INTO song (song_id, title, length, file_path, release_date, record_date, fk_album_id) ";
-		sql += "VALUES (?,?,?,?,?,?,?);";  //sql += used to add information in a prepared statment.  Protects against sql injection.
+		String sql = "INSERT INTO song (song_id, title, length, file_path, release_date, record_date) ";
+		sql += "VALUES (?,?,?,?,?,?);";  //sql += used to add information in a prepared statment.  Protects against sql injection.
 		
 		//System.out.println(sql);
 		
@@ -55,6 +56,7 @@ public class Song {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			ErrorLogger.log(e.getMessage());
+			//e.printStackTrace();
 		}
 		
 		
@@ -113,8 +115,7 @@ public class Song {
 	public void deleteSong(String songID) {
 		
 		//store the needed query in var sql
-		String sql = "DELETE FROM song ";
-		sql += "WHERE song_id = ?;";
+		String sql = "DELETE FROM song_artist WHERE fk_song_id = ?;";
 	
 		try {
 			DbUtilities db = new DbUtilities();
@@ -126,9 +127,26 @@ public class Song {
 			db = null;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			ErrorLogger.log(e.getMessage());
+			//ErrorLogger.log(e.getMessage());
+			e.printStackTrace();
 		}
 		
+		sql = "DELETE FROM song WHERE song_id = ?;";
+		
+		try {
+			DbUtilities db = new DbUtilities();
+			Connection conn = db.getConn();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, songID);
+			ps.executeUpdate();
+			db.closeDbConnection();
+			db = null;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			ErrorLogger.log(e.getMessage());
+			//e.printStackTrace();
+		}
+	
 	}
 	
 	//add artist to the songArtists hashtable by artistID
@@ -146,7 +164,7 @@ public class Song {
 				
 					PreparedStatement ps;
 					ps = conn.prepareStatement(sql);
-					ps.setString(1, v);
+					ps.setString(1, this.getSongID());
 					ps.setString(2, a.getArtistID());
 					ps.executeUpdate();
 				}
@@ -250,6 +268,30 @@ public class Song {
 
 	public Map<String, Artist> getSongArtists() {
 		return songArtists;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+		
+		DbUtilities db = new DbUtilities();
+		Connection conn = db.getConn();
+		
+		String sql = "UPDATE song SET file_path = ? WHERE song_id = ?;";
+		
+			try {	
+				PreparedStatement ps;
+				ps = conn.prepareStatement(sql);
+				ps.setString(1, this.filePath);
+				ps.setString(2, this.songID);
+				ps.executeUpdate();
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				ErrorLogger.log(e.getMessage());
+			}
+			
+		db.closeDbConnection();
+		db = null;
 	}
 }
 
