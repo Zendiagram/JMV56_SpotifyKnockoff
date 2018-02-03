@@ -1,4 +1,4 @@
-package jmv56_SpotifyKnockoff;
+package JMV56_SpotifyKnockoff;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
