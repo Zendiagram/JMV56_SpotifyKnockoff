@@ -1,4 +1,5 @@
-package jmv56_SpotifyKnockoff;
+package JMV56_SpotifyKnockoff;
+
 
 import java.util.*;
 import java.sql.Connection;
@@ -107,6 +108,29 @@ public class Artist {
 
 	public String getBio() {
 		return bio;
+	}
+	public void setBio(String bio) {
+		this.bio = bio;
+		
+		DbUtilities db = new DbUtilities();
+		Connection conn = db.getConn();
+		
+		String sql = "UPDATE artist SET bio = ? WHERE artist_id = ?;";
+		
+			try {	
+				PreparedStatement ps;
+				ps = conn.prepareStatement(sql);
+				ps.setString(1, this.bio);
+				ps.setString(2, this.artistID);
+				ps.executeUpdate();
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				ErrorLogger.log(e.getMessage());
+			}
+			
+		db.closeDbConnection();
+		db = null;
 	}
 
 }
