@@ -1,6 +1,7 @@
+package JMV56_SpotifyKnockoff;
 //This class contains all of the code used to test my methods in the Song, Artist, and Album classes.  
 
-package jmv56_SpotifyKnockoff;
+
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,9 +12,9 @@ public class Tester {
 	public static void main(String[] args) {
 		
 		//-----------Test Creating Object and Adding them to Database-----------------
-		//Song s1 = new Song("All Along the Watchtower", 5.45, "1967-11-08", "1967-03-15", "57ed733c-0099-11e8-a67a-005056881e07");
+		Song s1 = new Song("Voodoo Child", 4.99, "1967-11-08", "1967-03-15");
 		//Artist a1 = new Artist("Jimi", "Hendrix", "The Jimi Hendrix Experience");
-		//Album alb1 = new Album("Electric Ladyland", "1968-10-12", "Reprise Records", 16, "NR", 75.47);
+		//Album alb1 = new Album("TestAlbum", "1968-10-12", "Reprise Records", 16, "NR", 75.47);
 		
 		
 		//-----------Example of Hashtable Work-------------------
@@ -72,8 +73,14 @@ public class Tester {
 		System.out.println(a1.getAlbumSongs());
 		*/
 		
-		ErrorLogger.log("This is a test message");
+		//ErrorLogger.log("This is a test message");
 		
+		/*
+		Song s1 = new Song("e66d0910-dcca-49e8-a242-dfa3b765329f");
+		Artist a1 = new Artist("a4799a95-9496-483f-8029-f20be8edee0f");
+		s1.addArtist(a1.getArtistID());
+		s1.deleteSong(s1.getSongID());
+		*/
 	}
 
 }
