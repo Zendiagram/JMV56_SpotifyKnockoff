@@ -1,3 +1,11 @@
+/**Provides methods for adding and removing albums from the database
+ * associating songs with albums
+ * 
+ * @author James Van Poolen
+ * @version 1.0
+ */
+
+
 package JMV56_SpotifyKnockoff;
 
 
@@ -22,6 +30,16 @@ public class Album {
 	Map<String,Song> albumSongs;
 	
 	//add a new Album object into the database using JDBC
+	/**
+	 * Constructor - creates a new ablum object and adds it to the database
+	 * @param title
+	 * @param releaseDate
+	 * @param recordingCompany
+	 * @param numberOfTracks
+	 * @param pmrcRating - parental rating
+	 * @param length - total length of the album
+	 */
+	
 	public Album (String title, String releaseDate, String recordingCompany, int numberOfTracks, String pmrcRating, double length){
 		this.title = title;
 		this.releaseDate = releaseDate;
@@ -59,6 +77,10 @@ public class Album {
 		
 	}
 	
+	/**
+	 * Constructor - creates a new object using the information that already exists in the database.
+	 * @param albumID
+	 */
 	public Album(String albumID) {
 		
 		albumSongs = new Hashtable<String, Song>();
@@ -88,6 +110,10 @@ public class Album {
 	}
 	
 	//deletes the album from the database
+	/**
+	 * Deletes an album from the database. Removes records from album_songs and albums
+	 * @param albumID
+	 */
 	public void deleteAlbum(String albumID) {
 		
 		DbUtilities db = new DbUtilities();
@@ -125,6 +151,11 @@ public class Album {
 	}
 	
 	//add Songs to the hashtable for the Album object by songID
+	/**
+	 * Associate a song with an album. Used to create the list of songs on an album
+	 * populates the album_song table 
+	 * @param songID
+	 */
 	public void addSong(String... songID) {  //allows for multiple songIDs to be passed in
 		
 		DbUtilities db = new DbUtilities();
@@ -154,6 +185,10 @@ public class Album {
 	}
 	
 	//deletes song from the albumSongs hashtable by songID
+	/**
+	 * Remove a song album relationship using songID
+	 * @param songID
+	 */
 	public void deleteSong(String... songID) {
 		
 		DbUtilities db = new DbUtilities();
@@ -183,6 +218,10 @@ public class Album {
 	}
 
 	//deletes song from the albumSongs hashtable by Song object
+	/**
+	 * Removes album to song relationship using song object
+	 * @param song
+	 */
 	public void deleteSong(Song... song) {
 		
 		DbUtilities db = new DbUtilities();

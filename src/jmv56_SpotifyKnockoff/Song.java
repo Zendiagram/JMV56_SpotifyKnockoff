@@ -1,3 +1,11 @@
+/**Provides methods for adding and removing songs from the database
+ * associating artists with songs
+ * 
+ * @author James Van Poolen
+ * @version 1.0
+ */
+
+
 package JMV56_SpotifyKnockoff;
 
 
@@ -11,6 +19,7 @@ import java.util.Map;
 
 public class Song {
 	
+	
 	//private vars for Song
 	private String songID;
 	private String title;
@@ -21,7 +30,17 @@ public class Song {
 	Map<String, Artist> songArtists;
 	
 	//adds a new song to the database
+	
+	/**
+     * Constructor - use to create a song and add it to the database
+     * @param title - the title of the song being added
+     * @param length - the length of the song in min.second
+     * @param releaseDate - the date that the song was released
+     * @param recordDate - the date that the song was recorded
+     */
+	
 	public Song(String title, double length, String releaseDate, String recordDate) {
+		
 		this.title = title;
 		this.length = length;
 		this.releaseDate = releaseDate;
@@ -62,7 +81,17 @@ public class Song {
 		
 	}
 	
+	/**
+     * Constructor - used to create an object using a song already existing in the database
+     * @param songID - the unique identifier of the song, create by randomUUID
+     * @param title - the title of the song being added
+     * @param length - the length of the song in min.second
+     * @param releaseDate - the date that the song was released
+     * @param recordDate - the date that the song was recorded
+     */
+	
 	public Song(String songID, String title, double length, String releaseDate, String recordDate) {
+		
 		this.title = title;
 		this.length = length;
 		this.releaseDate = releaseDate;
@@ -74,7 +103,13 @@ public class Song {
 	}
 	
 	//retrieve a song that is store in the database
+	/**
+     * Constructor - used to create an object using a song already existing in the database, with only 
+     * @param songID - the unique identifier of the song, create by randomUUID
+	*/
+	
 	public Song(String songID) {
+		
 		
 		songArtists = new Hashtable<String, Artist>();
 		
@@ -112,6 +147,10 @@ public class Song {
 	}
 	
 	//deletes a song from the database
+	/**
+	 * Delete a song from the database, both from the song_artist and song tables.
+	 * @param songID - unique identifier for song objects.  song table primary key.
+	 */
 	public void deleteSong(String songID) {
 		
 		//store the needed query in var sql
@@ -150,6 +189,10 @@ public class Song {
 	}
 	
 	//add artist to the songArtists hashtable by artistID
+	/**
+	 * Associates an artist with the song in the hashtable and adds that relationship to the joiner table in the database
+	 * @param artistID - unique identifier for artists
+	 */
 	public void addArtist(String... artistID) {  //multiple artists can be added at once, handled in the below loop.
 		
 		DbUtilities db = new DbUtilities();
@@ -180,6 +223,10 @@ public class Song {
 	}
 	
 	//delete artist from the songArtists hashtable by artistID
+	/**
+	 * Removes the relationship between the song and artist, does not delete from the song or artist tables
+	 * @param artistID
+	 */
 	public void deleteArtist(String... artistID) {
 		
 		DbUtilities db = new DbUtilities();
@@ -212,6 +259,11 @@ public class Song {
 	
 	
 	//delete artist from the songArtists hashtable by artist object
+	/**
+	 * Removes the relationship between the song and artist, does not delete from the song or artist tables.
+	 * Uses artist object as a parameter
+	 * @param artist
+	 */
 	public void deleteArtist(Artist... artist) {
 		
 		DbUtilities db = new DbUtilities();

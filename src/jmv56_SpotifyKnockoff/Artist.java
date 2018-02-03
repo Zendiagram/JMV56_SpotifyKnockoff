@@ -1,3 +1,11 @@
+/**Provides methods for adding and removing artists from the database
+ * 
+ *
+ * @author James Van Poolen
+ * @version 1.0
+ */
+
+
 package JMV56_SpotifyKnockoff;
 
 
@@ -18,6 +26,12 @@ public class Artist {
 	private String bio;
 	
 	//constructor - adds a artist to the database
+	/**
+     * Constructor - use to create an artist and add it to the database
+     * @param firstName - first name of the artist being added
+     * @param lastName - last name of the artist being added
+     * @param bandName - the name of the band that the artist is a member of
+     */
 	public Artist (String firstName, String lastName, String bandName){
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -50,6 +64,11 @@ public class Artist {
 		
 	}
 	//constructor - gets a artist object out of the database - in layman's terms
+	/**
+     * Constructor - use to create an artist from existing information in the database
+     * @param artistID - the unique identifier for the artist in the database.  Primary key of the artist table.
+     * 
+     */
 	public Artist(String artistID) {
 		String sql = "SELECT * FROM artist WHERE artist_id = '" + artistID + "';";  //is concat a risk with only one var? Maybe change to prep statement.
 		
@@ -69,6 +88,11 @@ public class Artist {
 	}
 	
 	//deletes an artist out of the database
+	/**
+	 * Deletes and artist out of the artist table in the database
+	 * 
+	 * @param artistID - the unique identifier for the artist in the database.  Primary key of the artist table.
+	 */
 	public void deleteArtist(String artistID) {
 		//create the delete query and put it in var sql.  Using prepared statement.  Necessary?
 		String sql = "DELETE FROM artist ";
