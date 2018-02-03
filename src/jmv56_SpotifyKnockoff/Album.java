@@ -1,4 +1,5 @@
-package jmv56_SpotifyKnockoff;
+package JMV56_SpotifyKnockoff;
+
 
 import java.util.*;
 import java.sql.Connection;
@@ -89,13 +90,28 @@ public class Album {
 	//deletes the album from the database
 	public void deleteAlbum(String albumID) {
 		
+		DbUtilities db = new DbUtilities();
+		Connection conn = db.getConn();
+		
 		//created query and store to sql.  Using a prepared statement.
-		String sql = "DELETE FROM album ";
-		sql += "WHERE album_id = ?;";
-	
+		String sql = "DELETE FROM album_song WHERE fk_album_id = ?;";
+		
 		try {
-			DbUtilities db = new DbUtilities();
-			Connection conn = db.getConn();
+			
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, albumID);
+			ps.executeUpdate();
+			db.closeDbConnection();
+			db = null;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			ErrorLogger.log(e.getMessage());
+		}
+		
+		sql = "DELETE FROM album WHERE album_id = ?;";
+		
+		try {
+			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, albumID);
 			ps.executeUpdate();
@@ -230,6 +246,30 @@ public class Album {
 
 	public Map<String, Song> getAlbumSongs() {
 		return albumSongs;
+	}
+
+	public void setCoverImagePath(String coverImagePath) {
+		this.coverImagePath = coverImagePath;
+		
+		DbUtilities db = new DbUtilities();
+		Connection conn = db.getConn();
+		
+		String sql = "UPDATE album SET cover_image_path = ? WHERE album_id = ?;";
+		
+			try {	
+				PreparedStatement ps;
+				ps = conn.prepareStatement(sql);
+				ps.setString(1, this.coverImagePath);
+				ps.setString(2, this.albumID);
+				ps.executeUpdate();
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				ErrorLogger.log(e.getMessage());
+			}
+			
+		db.closeDbConnection();
+		db = null;
 	}
 
 }
