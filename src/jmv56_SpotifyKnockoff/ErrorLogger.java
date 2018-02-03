@@ -1,4 +1,5 @@
-package jmv56_SpotifyKnockoff;
+package JMV56_SpotifyKnockoff;
+
 
 import java.io.File;
 import java.io.FileWriter;
