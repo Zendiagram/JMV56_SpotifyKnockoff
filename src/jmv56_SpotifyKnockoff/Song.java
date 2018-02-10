@@ -16,6 +16,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
 
+import javax.swing.JOptionPane;
+
 
 public class Song {
 	
@@ -73,9 +75,8 @@ public class Song {
 			db = null;
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			ErrorLogger.log(e.getMessage());
-			//e.printStackTrace();
 		}
 		
 		
@@ -128,22 +129,10 @@ public class Song {
 				
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			ErrorLogger.log(e.getMessage());
 		}
 		
-	}
-	
-	Vector<String> getSongRecord(){
-		Vector<String> songRecord = new Vector<>();
-		
-		songRecord.add(this.songID);
-		songRecord.add(this.title);
-		songRecord.add(String.valueOf(this.length));
-		songRecord.add(this.recordDate);
-		songRecord.add(this.filePath);
-		
-		return songRecord;
 	}
 	
 	//deletes a song from the database
@@ -165,9 +154,8 @@ public class Song {
 			db.closeDbConnection();
 			db = null;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			//ErrorLogger.log(e.getMessage());
-			e.printStackTrace();
+			
+			ErrorLogger.log(e.getMessage());
 		}
 		
 		sql = "DELETE FROM song WHERE song_id = ?;";
@@ -181,9 +169,8 @@ public class Song {
 			db.closeDbConnection();
 			db = null;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			ErrorLogger.log(e.getMessage());
-			//e.printStackTrace();
 		}
 	
 	}
@@ -212,7 +199,7 @@ public class Song {
 					ps.executeUpdate();
 				}
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
+				
 				ErrorLogger.log(e.getMessage());
 			}
 		
@@ -246,7 +233,7 @@ public class Song {
 					ps.executeUpdate();
 				}
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
+				
 				ErrorLogger.log(e.getMessage());
 			}
 				
@@ -283,7 +270,7 @@ public class Song {
 					ps.executeUpdate();
 				}
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
+				
 				ErrorLogger.log(e.getMessage());
 			}
 				
@@ -293,7 +280,20 @@ public class Song {
 				
 	}
 	
-//getters	
+	Vector<String> getSongRecord(){
+		Vector<String> songRecord = new Vector<>();
+		
+		songRecord.add(this.songID);
+		songRecord.add(this.title);
+		songRecord.add(this.filePath);
+		songRecord.add(String.valueOf(this.length));
+		songRecord.add(this.releaseDate);
+		songRecord.add(this.recordDate);
+		
+		return songRecord;
+	}
+	
+//getters and setters
 	public String getReleaseDate() {
 		return releaseDate;
 	}
@@ -333,7 +333,7 @@ public class Song {
 			try {	
 				PreparedStatement ps;
 				ps = conn.prepareStatement(sql);
-				ps.setString(1, this.filePath);
+				ps.setString(1, filePath);
 				ps.setString(2, this.songID);
 				ps.executeUpdate();
 				
