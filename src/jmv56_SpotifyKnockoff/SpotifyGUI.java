@@ -21,6 +21,8 @@ import javax.swing.table.DefaultTableModel;
 
 import javax.swing.JButton;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 
@@ -78,12 +80,24 @@ public class SpotifyGUI {
 		lblViewSelector.setBounds(25, 24, 102, 27);
 		frame.getContentPane().add(lblViewSelector);
 		
-		musicData = getSongData("");
+		musicData = SearchSpotify.searchSongs("");
 		
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(316, 11, 658, 539);
 		frame.getContentPane().add(scrollPane);
 		tblData = new JTable(musicData);
+		tblData.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					rdbtnShowAlbums.setSelected(false);
+					rdbtnShowArtists.setSelected(false);
+					rdbtnShowSongs.setSelected(false);
+					
+					
+				}
+			}
+		});
 		scrollPane.setViewportView(tblData);
 		tblData.setFillsViewportHeight(true);
 		tblData.setShowGrid(true);
@@ -96,7 +110,7 @@ public class SpotifyGUI {
 				if(rdbtnShowAlbums.isSelected()) {
 					rdbtnShowArtists.setSelected(false);
 					rdbtnShowSongs.setSelected(false);
-					musicData = getAlbumData("");
+					musicData = SearchSpotify.searchAlbums("");
 					tblData.setModel(musicData);
 				}
 			}
@@ -111,7 +125,7 @@ public class SpotifyGUI {
 				if(rdbtnShowSongs.isSelected()) {
 					rdbtnShowAlbums.setSelected(false);
 					rdbtnShowArtists.setSelected(false);
-					musicData = getSongData("");
+					musicData = SearchSpotify.searchSongs("");
 					tblData.setModel(musicData);
 				}
 			}
@@ -126,7 +140,7 @@ public class SpotifyGUI {
 				if(rdbtnShowArtists.isSelected()) {
 					rdbtnShowSongs.setSelected(false);
 					rdbtnShowAlbums.setSelected(false);
-					musicData = getArtistData("");	
+					musicData = SearchSpotify.searchArtist("");	
 					tblData.setModel(musicData);
 				}
 			}
@@ -151,13 +165,13 @@ public class SpotifyGUI {
 		btnSearchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(rdbtnShowSongs.isSelected()) {
-					musicData = getSongData(txtSearch.getText());
+					musicData = SearchSpotify.searchSongs(txtSearch.getText());
 					tblData.setModel(musicData);
 				} else if(rdbtnShowAlbums.isSelected()) {
-					musicData = getAlbumData(txtSearch.getText());
+					musicData = SearchSpotify.searchAlbums(txtSearch.getText());
 					tblData.setModel(musicData);
 				} else {
-					musicData = getArtistData(txtSearch.getText());
+					musicData = SearchSpotify.searchArtist(txtSearch.getText());
 					tblData.setModel(musicData);
 				}
 				
@@ -168,58 +182,5 @@ public class SpotifyGUI {
 		frame.getContentPane().add(btnSearchButton);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-	
-	private DefaultTableModel getSongData(String searchTerm) {
-		String sql = "SELECT song_id, title, length, release_date, record_date FROM song ";
-		
-		String [] columns = {"Song ID","Title","Length","Release Date","Record Date"};
-		
-		if(!searchTerm.equals("")) {
-			sql += "WHERE title LIKE '%" + searchTerm + "%';";
-		}
-			try {
-				DbUtilities db = new DbUtilities();
-				return db.getDataTable(sql, columns);
-				
-			} catch (SQLException e) {
-				JOptionPane.showMessageDialog(frame, "Unable to connect to database");
-				ErrorLogger.log(e.getMessage());
-			}
-			return null;	 		
-	}
-	
-	private DefaultTableModel getAlbumData(String searchTerm) {
-		String sql = "SELECT album_id, title, release_date, recording_company_name, number_of_tracks, PMRC_rating, length FROM album ";
-		String [] columns = {"Album ID","Title","Release Date","Recording Company Name","Number of Tracks", "PMRC Rating", "Length"};
-		
-		if(!searchTerm.equals("")) {
-			sql += "WHERE title LIKE '%" + searchTerm + "%';";
-		}
-		
-		try {
-			DbUtilities db = new DbUtilities();
-			return db.getDataTable(sql, columns);
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(frame, "Unable to connect to database");		
-			ErrorLogger.log(e.getMessage());		
-		}
-		return null;
-	}
-	
-	private DefaultTableModel getArtistData(String searchTerm) {
-		String sql = "SELECT artist_id, first_name, last_name, band_name, bio FROM artist ";
-		
-		if(!searchTerm.equals("")) {
-			sql += "WHERE last_name LIKE '%" + searchTerm + "%' OR first_name LIKE '%" + searchTerm + "%' OR band_name LIKE '%" + searchTerm + "%';";
-		}
-		try {
-			DbUtilities db = new DbUtilities();
-			String [] columns = {"Artist ID","First Name","Last Name","Band Name","Bio"};
-			return db.getDataTable(sql, columns);
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(frame, "Unable to connect to database");
-			ErrorLogger.log(e.getMessage());
-		}
-		return null;
-	}
+
 }
