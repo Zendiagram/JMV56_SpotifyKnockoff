@@ -72,6 +72,7 @@ public class Album {
 			db.closeDbConnection();  //close that expensive connectoin!
 			db = null;
 		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "The connection to the database has failed.", JOptionPane.INFORMATION_MESSAGE);
 			ErrorLogger.log(e.getMessage());
 		}
 		
