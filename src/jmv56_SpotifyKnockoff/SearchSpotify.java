@@ -1,3 +1,9 @@
+/**
+ * 
+ * @author James Van Poolen
+ * @version 1.0
+ */
+
 package JMV56_SpotifyKnockoff;
 
 
@@ -10,8 +16,16 @@ import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
+
+
 public abstract class SearchSpotify {
+
 	
+/**
+ * 
+ * @param searchTerm
+ * @return
+ */
 	public static DefaultTableModel searchSongs(String searchTerm) {
 		String sql = "SELECT song_id, title, length, release_date, record_date FROM song ";
 		
@@ -31,6 +45,11 @@ public abstract class SearchSpotify {
 			return null;	 		
 	}
 	
+/**
+ * 
+ * @param searchTerm
+ * @return
+ */
 	public static DefaultTableModel searchAlbums(String searchTerm) {
 		String sql = "SELECT album_id, title, release_date, recording_company_name, number_of_tracks, PMRC_rating, length FROM album ";
 		String [] columns = {"Album ID","Title","Release Date","Recording Company Name","Number of Tracks", "PMRC Rating", "Length"};
@@ -48,7 +67,12 @@ public abstract class SearchSpotify {
 		}
 		return null;
 	}
-	
+
+/**
+ * 
+ * @param searchTerm
+ * @return
+ */
 	public static DefaultTableModel searchArtist(String searchTerm) {
 		String sql = "SELECT artist_id, first_name, last_name, band_name, bio FROM artist ";
 		
