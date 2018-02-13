@@ -1,3 +1,11 @@
+/**Provides methods the graphical user interface for Spotify Knockoff.
+ * 
+ * @author James Van Poolen
+ * @version 1.0
+ */
+
+
+
 package JMV56_SpotifyKnockoff;
 
 import java.awt.Color;
