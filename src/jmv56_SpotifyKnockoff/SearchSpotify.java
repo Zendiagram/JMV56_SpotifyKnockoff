@@ -1,4 +1,4 @@
-/**
+/**This class pulls the information from the database and returns tables which can be displayed in jTable.  It is dependent on the searches specified by the GUI.
  * 
  * @author James Van Poolen
  * @version 1.0
@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
 public abstract class SearchSpotify {
 
 	
-/**
+/**Searches the song table for the specified search term.  If search term is blank will return all songs.
  * 
  * @param searchTerm
  * @return
@@ -41,7 +41,8 @@ public abstract class SearchSpotify {
 			return null;	 		
 	}
 	
-/**
+/**Searches the Album table for the specified search term.  If search term is blank will return all albums.
+ * .
  * 
  * @param searchTerm
  * @return
@@ -64,7 +65,7 @@ public abstract class SearchSpotify {
 		return null;
 	}
 
-/**
+/**Searches the artist table for the specified search term.  If search term is blank will return all artists.
  * 
  * @param searchTerm
  * @return
