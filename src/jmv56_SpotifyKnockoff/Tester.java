@@ -1,4 +1,4 @@
-package JMV56_SpotifyKnockoff;
+package jmv56_SpotifyKnockoff;
 //This class contains all of the code used to test my methods in the Song, Artist, and Album classes.  
 
 
@@ -10,6 +10,8 @@ import java.util.*;
 public class Tester {
 
 	public static void main(String[] args) {
+		
+		ErrorLogger.log("Test");
 		
 		//-----------Test Creating Object and Adding them to Database-----------------
 		Song s1 = new Song("Voodoo Child", 4.99, "1967-11-08", "1967-03-15");

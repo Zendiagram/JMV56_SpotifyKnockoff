@@ -4,16 +4,12 @@
  * @version 1.0
  */
 
-package JMV56_SpotifyKnockoff;
+package jmv56_SpotifyKnockoff;
 
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
+
 import java.sql.SQLException;
-import java.sql.Statement;
 
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 

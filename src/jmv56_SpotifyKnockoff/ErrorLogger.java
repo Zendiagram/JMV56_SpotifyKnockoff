@@ -1,4 +1,4 @@
-package JMV56_SpotifyKnockoff;
+package jmv56_SpotifyKnockoff;
 
 
 import java.io.File;
@@ -6,10 +6,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.*;
 
+import javax.swing.JOptionPane;
+
 public class ErrorLogger {
 	public static void log(String errorMessage) {
 		//Save the following information to errorlog.txt		
 		//Date, Time, ErrorMessage /n
+		
+		JOptionPane.showMessageDialog(null, "The connection to the database has failed.");
 		
 		try {
 			LocalDateTime now = LocalDateTime.now();
@@ -27,3 +31,4 @@ public class ErrorLogger {
 
 //ErrorLogger.log(e.getMessage());
 //e.printStackTrace();
+//JOptionPane.showMessageDialog(null, "The connection to the database has failed.", JOptionPane.INFORMATION_MESSAGE);

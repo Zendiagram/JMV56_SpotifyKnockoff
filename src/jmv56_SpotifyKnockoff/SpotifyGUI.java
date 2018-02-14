@@ -6,15 +6,13 @@
 
 
 
-package JMV56_SpotifyKnockoff;
-
+package jmv56_SpotifyKnockoff;
 import java.awt.Color;
 import java.awt.EventQueue;
-import java.sql.SQLException;
+
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import java.awt.event.ActionListener;

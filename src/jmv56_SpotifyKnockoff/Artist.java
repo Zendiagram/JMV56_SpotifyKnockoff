@@ -6,7 +6,7 @@
  */
 
 
-package JMV56_SpotifyKnockoff;
+package jmv56_SpotifyKnockoff;
 
 
 import java.util.*;

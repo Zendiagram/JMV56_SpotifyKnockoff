@@ -2,3 +2,4 @@
 2018-02-02T18:41:20.262,You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'DELETE FROM song WHERE song_id = '6db92256-34c9-462c-a372-4acafc49651e'' at line 1
 2018-02-02T18:53:34.420,Column 'fk_song_id' cannot be null
 2018-02-09T20:02:22.306,Parameter index out of range (1 > number of parameters, which is 0).
+2018-02-13T19:34:10.535,Test

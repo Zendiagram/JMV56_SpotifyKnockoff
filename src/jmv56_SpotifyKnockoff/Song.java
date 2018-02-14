@@ -6,7 +6,7 @@
  */
 
 
-package JMV56_SpotifyKnockoff;
+package jmv56_SpotifyKnockoff;
 
 
 import java.util.*;
@@ -15,8 +15,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
-
-import javax.swing.JOptionPane;
 
 
 public class Song {
