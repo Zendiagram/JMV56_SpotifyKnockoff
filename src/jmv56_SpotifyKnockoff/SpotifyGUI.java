@@ -1,12 +1,5 @@
-/**Provides methods the graphical user interface for Spotify Knockoff.
- * 
- * @author James Van Poolen
- * @version 1.0
- */
-
-
-
 package jmv56_SpotifyKnockoff;
+
 import java.awt.Color;
 import java.awt.EventQueue;
 
@@ -30,7 +23,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-
+/**Provides methods the graphical user interface for Spotify Knockoff.
+ * 
+ * @author James Van Poolen
+ * @version 1.0
+ */
 
 public class SpotifyGUI {
 

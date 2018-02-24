@@ -8,6 +8,13 @@ import java.time.*;
 
 import javax.swing.JOptionPane;
 
+/**Error logger used throughout the application.  Saves errors to the ErrorLog.txt file located in the project folder.
+ * When an error occurs, this class will show the user "The connection to the database has failed"
+ * 
+ * @author James
+ * @version 1.0
+ */
+
 public class ErrorLogger {
 	public static void log(String errorMessage) {
 		//Save the following information to errorlog.txt		

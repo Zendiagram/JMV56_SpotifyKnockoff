@@ -1,19 +1,15 @@
-/**This class pulls the information from the database and returns tables which can be displayed in jTable.  It is dependent on the searches specified by the GUI.
- * 
- * @author James Van Poolen
- * @version 1.0
- */
-
 package jmv56_SpotifyKnockoff;
-
-
 
 import java.sql.SQLException;
 
 import javax.swing.table.DefaultTableModel;
 
 
-
+/**This class pulls the information from the database and returns tables which can be displayed in jTable.  It is dependent on the searches specified by the GUI.
+ * 
+ * @author James Van Poolen
+ * @version 1.0
+ */
 public abstract class SearchSpotify {
 
 	
