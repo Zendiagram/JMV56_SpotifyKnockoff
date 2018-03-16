@@ -1,10 +1,15 @@
 package jmv56_SpotifyKnockoff;
 
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Persistence;
 import javax.persistence.Table;
 
 
@@ -40,6 +45,79 @@ public class Artist {
 		super();
 	}
 	
+	public void createArtist(String firstName, String lastName, String bandName, String bio) {
+		EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("JMV56_SpotifyKnockoff");
+		
+		EntityManager emanager = emfactory.createEntityManager();
+		
+		emanager.getTransaction().begin();
+		
+		Artist a = new Artist();
+		a.setArtistID(UUID.randomUUID().toString());
+		a.setFirstName(firstName);
+		a.setLastName(lastName);
+		a.setBandName(bandName);
+		a.setBio(bio);
+		
+		emanager.persist(a);
+		emanager.getTransaction().commit();
+		
+		emanager.close();
+		emfactory.close();
+
+	}
+	
+	public void deleteArtist(String artistID) {
+		EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("JMV56_SpotifyKnockoff");
+		
+		EntityManager emanager = emfactory.createEntityManager();
+		
+		emanager.getTransaction().begin();
+		
+		Artist a = emanager.find(Artist.class, artistID);
+		emanager.remove(a);
+				
+		emanager.getTransaction().commit();
+		
+		emanager.close();
+		emfactory.close();
+
+	}
+	
+	public void updateArtist(String artistID, String firstName, String lastName, String bandName, String bio) {
+		EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("JMV56_SpotifyKnockoff");
+		
+		EntityManager emanager = emfactory.createEntityManager();
+		
+		emanager.getTransaction().begin();
+		
+		Artist a = emanager.find(Artist.class, artistID);
+		
+		if (firstName != "") {
+			a.setFirstName(firstName);
+		}
+		
+		if (lastName != "") {
+			a.setLastName(lastName);
+		}
+		
+		if (bandName != "") {
+			a.setBandName(bandName);
+		}
+		
+		if (bio != "") {
+			a.setBio(bio);
+		}
+		
+		a.setBio("");
+		
+		emanager.persist(a);
+		emanager.getTransaction().commit();
+		
+		emanager.close();
+		emfactory.close();
+
+	}
 	
 
 //getters

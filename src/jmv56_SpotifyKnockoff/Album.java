@@ -8,9 +8,12 @@ import java.util.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Persistence;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -61,6 +64,93 @@ public class Album {
 		super();
 	}
 	
+	public void createAlbum (String title, String releaseDate, String coverImagePath, String recordingCompany, int numberOfTracks, String pmrcRating, int length) {
+		EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("JMV56_SpotifyKnockoff");
+		
+		EntityManager emanager = emfactory.createEntityManager();
+		
+		emanager.getTransaction().begin();
+		
+		Album b = new Album();
+		
+		b.setAlbumID(UUID.randomUUID().toString());
+		b.setTitle(title);
+		b.setReleaseDate(releaseDate);
+		b.setCoverImagePath(coverImagePath);
+		b.setRecordingCompany(recordingCompany);
+		b.setNumberOfTracks(numberOfTracks);
+		b.setPmrcRating(pmrcRating);
+		b.setLength(length);
+		
+		emanager.persist(b);
+		emanager.getTransaction().commit();
+		
+		emanager.close();
+		emfactory.close();
+
+	}
+	
+	public void deleteAlbum (String albumID) {
+		EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("JMV56_SpotifyKnockoff");
+		
+		EntityManager emanager = emfactory.createEntityManager();
+		
+		emanager.getTransaction().begin();
+		
+		Album b = emanager.find(Album.class, albumID);
+		emanager.remove(b);
+				
+		emanager.getTransaction().commit();
+		
+		emanager.close();
+		emfactory.close();
+
+	}
+	
+	public void updateAlbum (String albumID, String title, String releaseDate, String coverImagePath, String recordingCompany, int numberOfTracks, String pmrcRating, int length) {
+		EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("JMV56_SpotifyKnockoff");
+		
+		EntityManager emanager = emfactory.createEntityManager();
+		
+		emanager.getTransaction().begin();
+		
+		Album b = emanager.find(Album.class, albumID);
+		
+		if (title != "") {
+			b.setTitle(title);
+		}
+		
+		if (releaseDate != "") {
+			b.setReleaseDate(releaseDate);
+		}
+		
+		if (coverImagePath != "") {
+			b.setCoverImagePath(coverImagePath);
+		}
+		
+		if (recordingCompany != "") {
+			b.setRecordingCompany(recordingCompany);
+		}
+		
+		if (numberOfTracks != 0) {
+			b.setNumberOfTracks(numberOfTracks);
+		}
+		
+		if (pmrcRating != "") {
+			b.setPmrcRating(pmrcRating);
+		}
+		
+		if (length != 0) {
+			b.setLength(length);
+		}
+		
+		emanager.persist(b);
+		emanager.getTransaction().commit();
+		
+		emanager.close();
+		emfactory.close();
+
+	}
 	
 //getters
 	public String getAlbumID() {
